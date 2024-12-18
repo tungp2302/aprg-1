@@ -1,0 +1,312 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Futura Bold";
+}
+
+@font-face {
+  font-family: 'Futura Bold';
+  src: url("/fonts/Futura-Bold.woff") format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Futura Bold', sans-serif;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;       /* Fixiert die Navigation */
+  top: 0;                /* Immer oben am Bildschirmrand */
+  left: 0;               /* Startet von ganz links */
+  width: 100%;           /* Volle Breite */
+  height: 60px;          /* Höhe des Headers */
+  background-color: white; /* Hintergrund für bessere Sichtbarkeit */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
+  z-index: 1000;         /* Stellt sicher, dass der Header immer oben liegt */
+  padding: 0 1rem;
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: 0.6s ease, color 0.6s ease; /* Sanfter Übergang */
+}
+.logo:hover {
+  color: #777777;
+}
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;           /* Navigation bleibt oben fixiert */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: white;
+  z-index: 1000;
+  padding: 0 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Menü-Icon Styling */
+.menu-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Navigation ausgeblendet */
+.nav-menu {
+  position: fixed;
+  top: 60px; /* Direkt unter dem Header */
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: scaleY(0); /* Startgröße: 0 */
+  transform-origin: top;
+  transition: transform 0.3s ease; /* Sanfte Animation */
+  z-index: 999;
+}
+
+/* Navigation sichtbar */
+.nav-menu.active {
+  transform: scaleY(1); /* Zeigt das Menü an */
+}
+
+/* Navigation Liste */
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.nav-menu li {
+  padding: 1rem;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+  color: red; /* Farbe beim Hovern */
+}
+
+.spacer {
+  width: 1.5rem;
+}
+
+/* Sale Banner */
+.sale-banner {
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
+
+.sale-content h1 {
+  font-size: clamp(2rem, 15vw, 15rem);
+  color: blue;
+  margin: 0;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.sale-content h2 {
+  position: absolute;
+  bottom: -6rem;
+  left: 10rem;
+  margin: 0;
+  line-height: 0.8;
+  letter-spacing: 0.7rem;
+  font-size: clamp(4rem, 5vw, 9rem);
+  text-transform: uppercase;
+  color: black;
+}
+
+.ready {
+  display: block;
+}
+
+.to-wear {
+  display: block;
+  padding-left: clamp(1rem, 8vw, 5rem);
+}
+
+/* Product Section */
+.product-section {
+  display: flex;
+  gap: 5rem;
+  padding: 8rem;
+  background-color: #f0f0f0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.product-card {
+  flex-shrink: 0;
+  width: 300px;
+  height: 400px;
+  background-color: lightgray;
+  border: 1px solid #ccc;
+}
+
+/* New Collection */
+.new-collection {
+  display: flex;                /* Flexbox für Zentrierung */
+  justify-content: center;      /* Horizontal zentriert */
+  align-items: center;          /* Vertikal zentriert */
+  flex-direction: column;       /* Inhalte vertikal anordnen */
+  text-align: center;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  min-height: 100vh;            /* Volle Höhe des Bildschirms */
+  box-sizing: border-box;
+}
+
+.new-collection h2 {
+  font-size: clamp(1.5rem, 8vw, 4rem);
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  z-index: 10;
+}
+
+.collection-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.collection-image,
+.collection-text {
+  flex: 1;
+  max-width: 500px;       /* Beide Blöcke haben gleiche maximale Breite */
+  aspect-ratio: 1 / 1;    /* Quadratisches Format */
+}
+
+.collection-image {
+  background-color: lightgray;
+  background-image: url('path/to/image.jpg'); /* Optional: Bild hinzufügen */
+  background-size: cover;
+  background-position: center;
+}
+
+.collection-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Vertikale Zentrierung */
+  align-items: center;      /* Horizontal zentriert */
+  padding: 1rem;
+  text-align: center;
+}
+
+.collection-text p {
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Sanfter Übergang */
+}
+
+button:hover {
+  background-color: white; /* Hintergrundfarbe beim Hover */
+  color: black;            /* Textfarbe beim Hover */
+}
+
+/* Footer */
+footer {
+  background-color: #f0f0f0;
+  padding: 2rem 1rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-links h3 {
+  font-size: clamp(0.8rem, 1.5vw, 2rem); /* min, dynamisch, max */
+  margin-bottom: 0.5rem;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links li {
+  font-size: clamp(0.8rem, 1.5vw, 1rem); /* min, dynamisch, max */
+  margin: 0.3rem 0;
+  transition: 0.3s ease, color 0.3s ease; /* Sanfter Übergang */
+}
+.footer-links li:hover {
+  color: #777777;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 5rem;
+  font-size: 0.9rem;
+}
+
+/* Media Query für kleinere Bildschirme */
+@media (max-width: 768px) {
+  .sale-content h2 {
+    left: 2rem; /* Abstand für kleinere Bildschirme */
+  }
+
+  .new-collection h2 {
+    transform: translateY(2rem); /* Weniger Verschiebung */
+  }
+
+  .collection-container {
+    flex-direction: column; /* Inhalte untereinander */
+    align-items: center;    /* Zentriert */
+  }
+  .collection-image {
+    width: 100%;                  /* Volle Breite */
+  }
+  .collection-image,
+  .collection-text {
+    max-width: 100%;        /* Volle Breite */
+  }
+
+  .collection-text {
+    padding: 1rem;
+  }
+}

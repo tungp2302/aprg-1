@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devanti - Sale und Kollektion</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>  <!-- Menü-Icon links -->
+  <div class="logo">DEVANTI</div> <!-- Logo zentriert -->
+  <div class="spacer"></div> <!-- Rechter Platzhalter -->
+</header>
+<nav class="nav-menu" id="navMenu">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+<!-- Sale Section -->
+<section class="sale-banner">
+  <div class="sale-content">
+    <h1>SALE</h1>
+    <h2>
+      <span class="ready">READY</span>
+      <span class="to-wear">TO WEAR</span>
+    </h2>
+  </div>
+</section>
+
+
+<!-- Product Section -->
+<section class="product-section">
+  <div class="product-card"></div>
+  <div class="product-card"></div>
+  <div class="product-card"></div>
+  <div class="product-card"></div>
+  <div class="product-card"></div>
+  <div class="product-card"></div>
+</section>
+
+<!-- New Collection -->
+<section class="new-collection">
+  <h2>NEW COLLECTION</h2>
+  <div class="collection-container">
+    <div class="collection-image"></div>
+    <div class="collection-text">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis ipsum suspendisse ultrices gravida. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis ipsum suspendisse ultrices gravida.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis ipsum suspendisse ultrices gravida.</p>
+      <button>SHOW</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <div>
+      <h3>OBERBEKLEIDUNG</h3>
+      <ul>
+        <li>T-Shirts</li>
+        <li>Hemden</li>
+        <li>Pullovers</li>
+        <li>Jacken</li>
+      </ul>
+    </div>
+    <div>
+      <h3>UNTERBEKLEIDUNG</h3>
+      <ul>
+        <li>Jeans</li>
+        <li>Chinos</li>
+        <li>Shorts</li>
+        <li>Röcke</li>
+      </ul>
+    </div>
+    <div>
+      <h3>SCHUHE</h3>
+      <ul>
+        <li>Sneaker</li>
+        <li>Stiefel</li>
+        <li>Sandalen</li>
+        <li>Loafers</li>
+      </ul>
+    </div>
+    <div>
+      <h3>ACCESSOIRES</h3>
+      <ul>
+        <li>Taschen</li>
+        <li>Gürtel</li>
+        <li>Hüte</li>
+        <li>Schmuck</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Impressum | AGB | Datenschutz</p>
+  </div>
+</footer>
+<!-- Dein JavaScript-Code -->
+<script>
+  function toggleMenu() {
+    const navMenu = document.getElementById("navMenu");
+    navMenu.classList.toggle("active"); // Fügt die Klasse 'active' hinzu/entfernt sie
+  }
+</script>
+</body>
+</html>
