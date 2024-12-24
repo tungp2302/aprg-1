@@ -15,6 +15,7 @@
     <div class="buttons">
         {{#isLoggedIn}}
             <a href="/wishlist" class="wishlist-button">Wunschliste</a>
+            <button onclick="logoutUser()">Logout</button>
         {{/isLoggedIn}}
         {{^isLoggedIn}}
             <button class="login-register-button" onclick="openLoginPopup()">Login</button>
@@ -24,11 +25,22 @@
 
 <nav class="nav-menu" id="navMenu">
     <ul>
-        <li><a href="#">Outfits</a></li>
+        <li><a href="#" onclick="checkLoginForOutfits()">Outfits ansehen</a></li>
         <li><a href="#">Meine Outfits</a></li>
         <li><a href="#">Katalog</a></li>
     </ul>
 </nav>
+
+<!-- Popup für nicht eingeloggte Benutzer -->
+<div id="notLoggedInPopup" class="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeNotLoggedInPopup()">&times;</span>
+        <h2>Anmeldung erforderlich</h2>
+        <p>Bitte melde dich an, um die Outfits anzusehen.</p>
+        <button onclick="openLoginPopup()">Jetzt anmelden</button>
+    </div>
+</div>
+
 <!-- Login Popup -->
 <div id="loginPopup" class="popup">
     <div class="popup-content">
@@ -103,7 +115,6 @@
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
                         </select>
-                        <!-- CSRF-Token für die Add-To-Wishlist-Funktion -->
                         <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
                         <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
                     </div>
@@ -173,40 +184,16 @@
 <footer>
     <div class="footer-links">
         <div>
-            <h3>OBERBEKLEIDUNG</h3>
-            <ul>
-                <li>T-Shirts</li>
-                <li>Hemden</li>
-                <li>Pullovers</li>
-                <li>Jacken</li>
-            </ul>
+            <h3>TOPS</h3>
         </div>
         <div>
-            <h3>UNTERBEKLEIDUNG</h3>
-            <ul>
-                <li>Jeans</li>
-                <li>Chinos</li>
-                <li>Shorts</li>
-                <li>Röcke</li>
-            </ul>
+            <h3>BOTTOMS</h3>
         </div>
         <div>
             <h3>SCHUHE</h3>
-            <ul>
-                <li>Sneaker</li>
-                <li>Stiefel</li>
-                <li>Sandalen</li>
-                <li>Loafers</li>
-            </ul>
         </div>
         <div>
             <h3>ACCESSOIRES</h3>
-            <ul>
-                <li>Taschen</li>
-                <li>Gürtel</li>
-                <li>Hüte</li>
-                <li>Schmuck</li>
-            </ul>
         </div>
     </div>
     <div class="footer-bottom">
@@ -221,13 +208,18 @@
     }
 
     function openLoginPopup() {
-        const popup = document.getElementById("loginPopup");
-        popup.style.display = "flex";
+        const loginPopup = document.getElementById("loginPopup");
+        loginPopup.style.display = "flex";
         showLoginForm();
     }
 
     function closeLoginPopup() {
-        const popup = document.getElementById("loginPopup");
+        const loginPopup = document.getElementById("loginPopup");
+        loginPopup.style.display = "none";
+    }
+
+    function closeNotLoggedInPopup() {
+        const popup = document.getElementById("notLoggedInPopup");
         popup.style.display = "none";
     }
 
@@ -241,6 +233,16 @@
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("registerForm").style.display = "block";
         document.getElementById("message").textContent = "";
+    }
+
+    function checkLoginForOutfits() {
+        {{^isLoggedIn}}
+            const popup = document.getElementById("notLoggedInPopup");
+            popup.style.display = "flex";
+        {{/isLoggedIn}}
+        {{#isLoggedIn}}
+            window.location.href = "/outfits"; // Benutzer wird zu Outfits weitergeleitet, wenn er angemeldet ist
+        {{/isLoggedIn}}
     }
 
     function loginUser() {
@@ -300,6 +302,25 @@
                 })
                 .catch(error => {
                     document.getElementById('registerMessage').textContent = error.message;
+                });
+    }
+
+    function logoutUser() {
+        fetch("/logout", {
+            method: "POST",
+            headers: {
+                "X-CSRF-Token": document.querySelector('input[name="_csrf"]').value // CSRF-Token hinzufügen
+            }
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/"; // Benutzer zur Startseite umleiten
+                    } else {
+                        alert('Fehler beim Ausloggen. Bitte versuche es erneut.');
+                    }
+                })
+                .catch(() => {
+                    alert('Netzwerkfehler. Bitte versuche es erneut.');
                 });
     }
 

@@ -194,17 +194,19 @@ body {
 
 /* Wunschliste-Seite */
 .wishlist-button {
-  background-color: #ffffff;
-  color: #000000;
-  border: 1px solid black;
-  border-radius: 5px;
-  text-decoration: none;
-  padding: 10px 15px;
-  font-size: 14px;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none
 }
 
 .wishlist-button:hover {
-  background-color: #ffffff;
+  background-color: white; /* Hintergrundfarbe beim Hover */
+  color: black;            /* Textfarbe beim Hover */
 }
 
 .wishlist-section {
@@ -311,32 +313,33 @@ header {
 
 /* Login-Button */
 .login-register-button {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 10px 15px;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: black;
+  color: white;
   cursor: pointer;
-  font-size: 14px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .login-register-button:hover {
-  background-color: #f4f4f4;
+  background-color: white; /* Hintergrundfarbe beim Hover */
+  color: black;            /* Textfarbe beim Hover */
 }
 
 .logout-button {
-  background-color: #3fa1e8;
-  color: white;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+  background-color: black;
+  color: white;
   cursor: pointer;
-  font-size: 14px;
-  float: right;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #1f608c;
+  background-color: white; /* Hintergrundfarbe beim Hover */
+  color: black;            /* Textfarbe beim Hover */
 }
 
 /* Popup-Stile (wie vorher) */
