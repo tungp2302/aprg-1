@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devanti - Wünsch dir was</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <a href="/" class="logo">DEVANTI</a>
+    <div class="spacer"></div>
+    <div class="buttons">
+        {{#isLoggedIn}}
+            <a href="/wishlist" class="wishlist-button">Wunschliste</a>
+        {{/isLoggedIn}}
+        {{^isLoggedIn}}
+            <button class="login-register-button" onclick="openLoginPopup()">Login</button>
+        {{/isLoggedIn}}
+    </div>
+</header>
+
+<nav class="nav-menu" id="navMenu">
+    <ul>
+        <li><a href="#">Outfits</a></li>
+        <li><a href="#">Meine Outfits</a></li>
+        <li><a href="#">Katalog</a></li>
+    </ul>
+</nav>
+<!-- Login Popup -->
+<div id="loginPopup" class="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeLoginPopup()">&times;</span>
+        <div id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+                <label for="username">Benutzername:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Passwort:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="button" onclick="loginUser()">Login</button>
+            </form>
+            <p>Noch kein Account? <a href="#" onclick="showRegisterForm()">Registrieren</a></p>
+            <div id="loginMessage" class="message"></div>
+        </div>
+
+        <div id="registerForm" style="display: none;">
+            <h2>Registrieren</h2>
+            <form id="registerFormElement">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+                <label for="reg-username">Benutzername:</label>
+                <input type="text" id="reg-username" name="username" required>
+                <label for="reg-password">Passwort:</label>
+                <input type="password" id="reg-password" name="password" required>
+                <button type="button" onclick="registerUser()">Registrieren</button>
+            </form>
+            <div id="registerMessage" class="message"></div>
+            <p>Schon einen Account? <a href="#" onclick="showLoginForm()">Login</a></p>
+        </div>
+
+        <div id="message" class="message"></div>
+        {{#error}}
+            <p style="color:red;">{{error}}</p>
+        {{/error}}
+    </div>
+</div>
+
+<!-- Sale Section -->
+<section class="sale-banner">
+    <div class="sale-content">
+        <h1>FRESH FOR 2025</h1>
+        <h2>
+            <span class="ready">READY</span>
+            <span class="to-wear">TO WEAR</span>
+        </h2>
+    </div>
+</section>
+
+<section class="product-section">
+    <div class="product-container">
+        <div class="outfit-image-container">
+            <h3 class="outfit-title">Outfit of the Day #1</h3>
+            <img src="css/images/oodt1.jpg" alt="Outfit des Tages #1" class="outfit-image">
+        </div>
+
+        <div class="product-cards">
+            {{#products}}
+                <div class="product-card">
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="" disabled selected>Bitte wählen</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                        <!-- CSRF-Token für die Add-To-Wishlist-Funktion -->
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/products}}
+        </div>
+    </div>
+
+    <hr class="outfit-divider">
+
+    <div class="product-container">
+        <div class="outfit-image-container">
+            <h3 class="outfit-title">Outfit of the Day #2</h3>
+            <img src="css/images/ootd2.jpg" alt="Outfit des Tages #2" class="outfit-image">
+        </div>
+
+        <div class="product-cards">
+            {{#products2}}
+                <div class="product-card">
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="" disabled selected>Bitte wählen</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/products2}}
+        </div>
+    </div>
+</section>
+
+<section class="new-collection">
+    <h2>DIE NEUHEITEN</h2>
+    <div class="collection-container">
+        <div class="collection-image">
+            <img src="css/images/trend1.jpg" alt="Die Neuheiten" class="cropped-image">
+        </div>
+        <div class="collection-text">
+            <p>
+                Step into the future of fashion!<br>
+                Die neuesten Sneaker-Trends: Style und Komfort.<br>
+                Entdecke die Klassiker neu interpretiert:<br>
+                Puma Speedcat, Adidas Sambas und Nike Cortez.<br>
+                Perfekt für jedes Abenteuer.
+            </p>
+            <p>
+                Sneaker, die Geschichten erzählen.<br>
+                Finde deinen Style mit den heißesten Neuheiten!
+            </p>
+            <button onclick="window.location.href='/trendy-shoes'">SHOW</button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-links">
+        <div>
+            <h3>OBERBEKLEIDUNG</h3>
+            <ul>
+                <li>T-Shirts</li>
+                <li>Hemden</li>
+                <li>Pullovers</li>
+                <li>Jacken</li>
+            </ul>
+        </div>
+        <div>
+            <h3>UNTERBEKLEIDUNG</h3>
+            <ul>
+                <li>Jeans</li>
+                <li>Chinos</li>
+                <li>Shorts</li>
+                <li>Röcke</li>
+            </ul>
+        </div>
+        <div>
+            <h3>SCHUHE</h3>
+            <ul>
+                <li>Sneaker</li>
+                <li>Stiefel</li>
+                <li>Sandalen</li>
+                <li>Loafers</li>
+            </ul>
+        </div>
+        <div>
+            <h3>ACCESSOIRES</h3>
+            <ul>
+                <li>Taschen</li>
+                <li>Gürtel</li>
+                <li>Hüte</li>
+                <li>Schmuck</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Impressum | AGB | Datenschutz</p>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navMenu = document.getElementById("navMenu");
+        navMenu.classList.toggle("active");
+    }
+
+    function openLoginPopup() {
+        const popup = document.getElementById("loginPopup");
+        popup.style.display = "flex";
+        showLoginForm();
+    }
+
+    function closeLoginPopup() {
+        const popup = document.getElementById("loginPopup");
+        popup.style.display = "none";
+    }
+
+    function showLoginForm() {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("message").textContent = "";
+    }
+
+    function showRegisterForm() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("message").textContent = "";
+    }
+
+    function loginUser() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (!username || !password) {
+            document.getElementById("loginMessage").textContent = "Bitte Benutzername und Passwort eingeben.";
+            document.getElementById("loginMessage").style.color = "red";
+            return;
+        }
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": csrfToken
+            },
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/wishlist";
+                    } else if (response.status === 401) {
+                        document.getElementById("loginMessage").textContent = "Benutzername oder Passwort ist falsch.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    } else {
+                        document.getElementById("loginMessage").textContent = "Fehler beim Login. Bitte erneut versuchen.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loginMessage").textContent = "Fehler. Bitte erneut versuchen.";
+                    document.getElementById("loginMessage").style.color = "red";
+                });
+    }
+
+    function registerUser() {
+        const token = document.querySelector('input[name="_csrf"]').value;
+        const formData = new FormData(document.getElementById('registerFormElement'));
+
+        fetch('/register', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': token
+            }
+        })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Fehler bei der Registrierung: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('registerMessage').textContent = "Registrierung erfolgreich!";
+                })
+                .catch(error => {
+                    document.getElementById('registerMessage').textContent = error.message;
+                });
+    }
+
+    function addToWishlist(productId, productName, productPrice) {
+        const sizeSelector = document.getElementById(`size-${productId}`);
+        const selectedSize = sizeSelector.value;
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        const details = `Größe: ${selectedSize}, Preis: ${productPrice} €`;
+
+        fetch("/wishlist/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken // CSRF-Token hinzufügen
+            },
+            body: JSON.stringify({ itemName: productName, itemDetails: details }),
+        })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`"${productName}" wurde zur Wunschliste hinzugefügt!`);
+                    } else {
+                        alert("Fehler beim Hinzufügen zur Wunschliste.");
+                    }
+                })
+                .catch(() => {
+                    alert("Fehler. Bitte anmelden oder erneut versuchen.");
+                });
+    }
+</script>
+</body>
+</html>
