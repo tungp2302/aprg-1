@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devanti - Outfits</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <a href="/" class="logo">DEVANTI</a>
+    <div class="spacer"></div>
+    <div class="buttons">
+        {{#isLoggedIn}}
+            <a href="/wishlist" class="wishlist-button">Wunschliste</a>
+            <button onclick="logoutUser()">Logout</button>
+        {{/isLoggedIn}}
+        {{^isLoggedIn}}
+            <button class="login-register-button" onclick="openLoginPopup()">Login</button>
+        {{/isLoggedIn}}
+    </div>
+</header>
+
+<nav class="nav-menu" id="navMenu">
+    <ul>
+        <li><a href="#" onclick="checkLoginForOutfits()">Outfits ansehen</a></li>
+        <li><a href="/katalog">Katalog</a></li>
+    </ul>
+</nav>
+
+<!-- Popup für nicht eingeloggte Benutzer -->
+<div id="notLoggedInPopup" class="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeNotLoggedInPopup()">&times;</span>
+        <h2>Anmeldung erforderlich</h2>
+        <p>Bitte melde dich an, um die Outfits anzusehen.</p>
+        <button onclick="openLoginPopup()">Jetzt anmelden</button>
+    </div>
+</div>
+
+<!-- Sale Section -->
+<section class="sale-banner">
+    <div class="sale-content">
+        <h1>COMMUNITY OUTFITS</h1>
+        <h2>
+            <span class="ready">FIT</span>
+            <span class="to-wear">INSPO</span>
+        </h2>
+    </div>
+</section>
+
+<!-- Outfits Section -->
+<section class="outfits-product-section">
+
+    <div class="product-container">
+        <div class="outfit-image-container">
+
+            <img src="css/images/oodt1.jpg" alt="Outfit des Tages #1" class="outfit-image">
+            <p class="username">@jonahhwang</p>
+        </div>
+
+        <div class="product-cards">
+            {{#outfitProducts1}}
+                <div class="product-card" data-category="{{category}}"> <!-- Kategorie hinzufügen -->
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                            <!-- Platz für Größenoptionen -->
+                        </select>
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/outfitProducts1}}
+        </div>
+    </div>
+
+
+    <div class="product-container">
+        <div class="outfit-image-container">
+
+            <img src="css/images/ootd2.jpg" alt="Outfit des Tages #2" class="outfit-image">
+            <p class="username">@liagarciaf</p>
+        </div>
+
+        <div class="product-cards">
+            {{#outfitProducts2}}
+                <div class="product-card" data-category="{{category}}"> <!-- Kategorie hinzufügen -->
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                            <!-- Platz für Größenoptionen -->
+                        </select>
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/outfitProducts2}}
+        </div>
+    </div>
+
+    <div class="product-container">
+        <div class="outfit-image-container">
+
+            <img src="css/images/outfit3.webp" alt="Outfit des Tages #2" class="outfit-image">
+            <p class="username">@itsantonia</p>
+        </div>
+
+        <div class="product-cards">
+            {{#outfitProducts3}}
+                <div class="product-card" data-category="{{category}}"> <!-- Kategorie hinzufügen -->
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                            <!-- Platz für Größenoptionen -->
+                        </select>
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/outfitProducts3}}
+        </div>
+    </div>
+
+    <div class="product-container">
+        <div class="outfit-image-container">
+
+            <img src="css/images/outfit4.webp" alt="Outfit des Tages #2" class="outfit-image">
+            <p class="username">@tommytrvn_</p>
+        </div>
+
+        <div class="product-cards">
+            {{#outfitProducts4}}
+                <div class="product-card" data-category="{{category}}"> <!-- Kategorie hinzufügen -->
+                    <img src="{{imageUrl}}" alt="{{name}}" class="product-image">
+                    <div class="product-hover">
+                        <h3 class="hover-title">{{name}}</h3>
+                        <p class="hover-price">{{price}} €</p>
+                        <label for="size-{{id}}">Größe:</label>
+                        <select id="size-{{id}}" class="size-selector">
+                            <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                            <!-- Platz für Größenoptionen -->
+                        </select>
+                        <input type="hidden" id="csrfToken" name="_csrf" value="{{_csrf.token}}">
+                        <button onclick="addToWishlist('{{id}}', '{{name}}', '{{price}}')">WÜNSCHEN</button>
+                    </div>
+                </div>
+            {{/outfitProducts4}}
+        </div>
+    </div>
+
+</section>
+
+
+<!-- Footer -->
+<footer>
+    <div class="footer-bottom">
+        <p>Impressum | AGB | Datenschutz</p>
+    </div>
+</footer>
+
+<script>
+    // Hier bleibt der bestehende JavaScript-Code unverändert
+
+    function toggleMenu() {
+        const navMenu = document.getElementById("navMenu");
+        navMenu.classList.toggle("active");
+    }
+
+    function openLoginPopup() {
+        const loginPopup = document.getElementById("loginPopup");
+        loginPopup.style.display = "flex";
+        showLoginForm();
+    }
+
+    function closeLoginPopup() {
+        const loginPopup = document.getElementById("loginPopup");
+        loginPopup.style.display = "none";
+    }
+
+    function closeNotLoggedInPopup() {
+        const popup = document.getElementById("notLoggedInPopup");
+        popup.style.display = "none";
+    }
+
+    function showLoginForm() {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("message").textContent = "";
+    }
+
+    function showRegisterForm() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("message").textContent = "";
+    }
+
+    function checkLoginForOutfits() {
+        {{^isLoggedIn}}
+            const popup = document.getElementById("notLoggedInPopup");
+            popup.style.display = "flex";
+        {{/isLoggedIn}}
+        {{#isLoggedIn}}
+            window.location.href = "/outfits"; // Benutzer wird zu Outfits weitergeleitet, wenn er angemeldet ist
+        {{/isLoggedIn}}
+    }
+
+    function loginUser() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (!username || !password) {
+            document.getElementById("loginMessage").textContent = "Bitte Benutzername und Passwort eingeben.";
+            document.getElementById("loginMessage").style.color = "red";
+            return;
+        }
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": csrfToken
+            },
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/wishlist";
+                    } else if (response.status === 401) {
+                        document.getElementById("loginMessage").textContent = "Benutzername oder Passwort ist falsch.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    } else {
+                        document.getElementById("loginMessage").textContent = "Fehler beim Login. Bitte erneut versuchen.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loginMessage").textContent = "Fehler. Bitte erneut versuchen.";
+                    document.getElementById("loginMessage").style.color = "red";
+                });
+    }
+
+    function registerUser() {
+        const token = document.querySelector('input[name="_csrf"]').value;
+        const formData = new FormData(document.getElementById('registerFormElement'));
+
+        fetch('/register', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': token
+            }
+        })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Fehler bei der Registrierung: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('registerMessage').textContent = "Registrierung erfolgreich!";
+                })
+                .catch(error => {
+                    document.getElementById('registerMessage').textContent = error.message;
+                });
+    }
+
+    function logoutUser() {
+        fetch("/logout", {
+            method: "POST",
+            headers: {
+                "X-CSRF-Token": document.querySelector('input[name="_csrf"]').value // CSRF-Token hinzufügen
+            }
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/"; // Benutzer zur Startseite umleiten
+                    } else {
+                        alert('Fehler beim Ausloggen. Bitte versuche es erneut.');
+                    }
+                })
+                .catch(() => {
+                    alert('Netzwerkfehler. Bitte versuche es erneut.');
+                });
+    }
+
+    function addToWishlist(productId, productName, productPrice) {
+        const sizeSelector = document.getElementById(`size-${productId}`);
+        const selectedSize = sizeSelector.value;
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        const details = `Größe: ${selectedSize}, Preis: ${productPrice} €`;
+
+        fetch("/wishlist/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken // CSRF-Token hinzufügen
+            },
+            body: JSON.stringify({ itemName: productName, itemDetails: details }),
+        })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`"${productName}" wurde zur Wunschliste hinzugefügt!`);
+                    } else {
+                        alert("Fehler beim Hinzufügen zur Wunschliste.");
+                    }
+                })
+                .catch(() => {
+                    alert("Fehler. Bitte anmelden oder erneut versuchen.");
+                });
+    }
+    // Die neuen Funktionen nach dem existierenden Code hinzufügen
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Für jedes Produkt die Größenoptionen befüllen
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+            const sizeSelector = card.querySelector('.size-selector');
+            const category = card.getAttribute('data-category'); // Finde die Kategorie
+
+            // Optionale Größen basierend auf der Kategorie hinzufügen
+            if (category === "schuhe") {
+                addShoeSizes(sizeSelector);
+            } else {
+                addClothingSizes(sizeSelector);
+            }
+        });
+    });
+
+    function addShoeSizes(sizeSelector) {
+        const shoeSizes = ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"];
+        shoeSizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size;
+            option.textContent = size;
+            sizeSelector.appendChild(option);
+        });
+    }
+
+    function addClothingSizes(sizeSelector) {
+        const clothingSizes = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
+        clothingSizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size;
+            option.textContent = size;
+            sizeSelector.appendChild(option);
+        });
+    }
+
+</script>
+</body>
+</html>

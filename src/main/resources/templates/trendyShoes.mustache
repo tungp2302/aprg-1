@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendy Shoes</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <a href="/" class="logo">DEVANTI</a>
+    <div class="spacer"></div>
+    <div class="buttons">
+        {{#isLoggedIn}}
+            <a href="/wishlist" class="wishlist-button">Wunschliste</a>
+            <button onclick="logoutUser()">Logout</button>
+        {{/isLoggedIn}}
+        {{^isLoggedIn}}
+            <button class="login-register-button" onclick="openLoginPopup()">Login</button>
+        {{/isLoggedIn}}
+    </div>
+</header>
+
+<nav class="nav-menu" id="navMenu">
+    <ul>
+        <li><a href="#" onclick="checkLoginForOutfits()">Outfits ansehen</a></li>
+        <li><a href="/katalog">Katalog</a></li>
+    </ul>
+</nav>
+
+<!-- Popup für nicht eingeloggte Benutzer -->
+<div id="notLoggedInPopup" class="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeNotLoggedInPopup()">&times;</span>
+        <h2>Anmeldung erforderlich</h2>
+        <p>Bitte melde dich an, um die Outfits anzusehen.</p>
+        <button onclick="openLoginPopup()">Jetzt anmelden</button>
+    </div>
+</div>
+
+<!-- Login Popup -->
+<div id="loginPopup" class="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeLoginPopup()">×</span>
+
+        <!-- Login-Formular -->
+        <div id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"> <!-- CSRF-Token -->
+                <label for="username">Benutzername:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Passwort:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="button" onclick="loginUser()">Login</button>
+            </form>
+            <p>Noch kein Account? <a href="#" onclick="showRegisterForm()">Registrieren</a></p>
+            <div id="loginMessage" class="message"></div>
+        </div>
+
+        <!-- Registrierungsformular -->
+        <div id="registerForm" style="display: none;">
+            <h2>Registrieren</h2>
+            <form id="registerFormElement">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"> <!-- CSRF-Token -->
+                <label for="reg-username">Benutzername:</label>
+                <input type="text" id="reg-username" name="username" required>
+                <label for="reg-password">Passwort:</label>
+                <input type="password" id="reg-password" name="password" required>
+                <button type="button" onclick="registerUser()">Registrieren</button>
+            </form>
+            <div id="registerMessage" class="message"></div>
+            <p>Schon einen Account? <a href="#" onclick="showLoginForm()">Login</a></p>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+</div>
+
+<main>
+    <section class="trendy-shoes-section">
+        <h1 class="trending-header">SNEAKER TRENDS</h1>
+        <div class="shoes-container">
+            <div class="shoe-card">
+                <div class="shoe-image-container">
+                    <img src="css/images/cortez.jpg" alt="Nike Cortez - metallic grey" class="shoe-image active">
+                    <img src="css/images/cortez2.jpg" alt="Nike Cortez - black/white" class="shoe-image">
+                    <img src="css/images/cortez3.jpg" alt="Nike Cortez - white/black" class="shoe-image">
+                    <button class="prev" onclick="changeImage(this.parentElement, 'prev')">&#10094;</button>
+                    <button class="next" onclick="changeImage(this.parentElement, 'next')">&#10095;</button>
+                </div>
+                <div class="shoe-info">
+                    <h3>Nike Cortez</h3>
+                    <p>Preis: 99.95 €</p>
+                    <label for="variant-select-nike-cortez">Farbe:</label>
+                    <select id="variant-select-nike-cortez" onchange="changeVariant('nike-cortez')">
+                        <option value="metallic-grey" data-image="css/images/cortez.jpg">Metallic Grey</option>
+                        <option value="black-white" data-image="css/images/cortez2.jpg">Black/White</option>
+                        <option value="white-black" data-image="css/images/cortez3.jpg">White/Black</option>
+                    </select>
+                    <br>
+                    <label for="size-select-nike-cortez">Größe:</label>
+                    <select id="size-select-nike-cortez" class="size-select">
+                        <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                    </select>
+                    <br>
+                    <button onclick="addToWishlist('nike-cortez', 'Nike Cortez', '99.95', document.getElementById('size-select-nike-cortez').value)">Wünschen</button>
+                </div>
+            </div>
+
+            <div class="shoe-card">
+                <div class="shoe-image-container">
+                    <img src="css/images/speedcat.jpg" alt="Puma Speedcat - red/white" class="shoe-image active">
+                    <img src="css/images/speedcat2.jpg" alt="Puma Speedcat - black/white" class="shoe-image">
+                    <img src="css/images/speedcat3.jpg" alt="Puma Speedcat - green/white" class="shoe-image">
+                    <button class="prev" onclick="changeImage(this.parentElement, 'prev')">&#10094;</button>
+                    <button class="next" onclick="changeImage(this.parentElement, 'next')">&#10095;</button>
+                </div>
+                <div class="shoe-info">
+                    <h3>Puma Speedcat</h3>
+                    <p>Preis: 109.95 €</p>
+                    <label for="variant-select-puma-speedcat">Farbe:</label>
+                    <select id="variant-select-puma-speedcat" onchange="changeVariant('puma-speedcat')">
+                        <option value="red-white" data-image="css/images/speedcat.jpg">Red/White</option>
+                        <option value="black-white" data-image="css/images/speedcat2.jpg">Black/White</option>
+                        <option value="green-white" data-image="css/images/speedcat3.jpg">Green/White</option>
+                    </select>
+                    <br>
+                    <label for="size-select-puma-speedcat">Größe:</label>
+                    <select id="size-select-puma-speedcat" class="size-select">
+                        <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                    </select>
+                    <br>
+                    <button onclick="addToWishlist('puma-speedcat', 'Puma Speedcat', '109.95', document.getElementById('size-select-puma-speedcat').value)">Wünschen</button>
+                </div>
+            </div>
+
+            <div class="shoe-card">
+                <div class="shoe-image-container">
+                    <img src="css/images/samba.jpg" alt="Adidas Samba - indigo/white" class="shoe-image active">
+                    <img src="css/images/samba2.jpg" alt="Adidas Samba - black/white" class="shoe-image">
+                    <img src="css/images/samba3.jpg" alt="Adidas Samba - white/black" class="shoe-image">
+                    <button class="prev" onclick="changeImage(this.parentElement, 'prev')">&#10094;</button>
+                    <button class="next" onclick="changeImage(this.parentElement, 'next')">&#10095;</button>
+                </div>
+                <div class="shoe-info">
+                    <h3>Adidas Samba</h3>
+                    <p>Preis: 119.95 €</p>
+                    <label for="variant-select-adidas-samba">Farbe:</label>
+                    <select id="variant-select-adidas-samba" onchange="changeVariant('adidas-samba')">
+                        <option value="indigo-white" data-image="css/images/samba.jpg">Indigo/White</option>
+                        <option value="black-white" data-image="css/images/samba2.jpg">Black/White</option>
+                        <option value="white-black" data-image="css/images/samba3.jpg">White/Black</option>
+                    </select>
+                    <br>
+                    <label for="size-select-adidas-samba">Größe:</label>
+                    <select id="size-select-adidas-samba" class="size-select">
+                        <option value="Nicht ausgewählt" disabled selected>Bitte wählen</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                    </select>
+                    <br>
+                    <button onclick="addToWishlist('adidas-samba', 'Adidas Samba', '119.95', document.getElementById('size-select-adidas-samba').value)">Wünschen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-bottom">
+        <p>Impressum | AGB | Datenschutz</p>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navMenu = document.getElementById("navMenu");
+        navMenu.classList.toggle("active");
+    }
+
+    function openLoginPopup() {
+        const popup = document.getElementById("loginPopup");
+        popup.style.display = "flex";
+        showLoginForm();
+    }
+
+    function changeImage(container, direction) {
+        const images = container.querySelectorAll('.shoe-image'); // Nur Bilder im aktuellen Container
+        const currentActive = container.querySelector('.shoe-image.active');
+
+        let newIndex = Array.from(images).indexOf(currentActive) + (direction === 'next' ? 1 : -1);
+
+        // Wenn das Ende oder der Anfang erreicht ist, zurücksetzen
+        if (newIndex < 0) {
+            newIndex = images.length - 1; // Zum letzten Bild zurückspringen
+        } else if (newIndex >= images.length) {
+            newIndex = 0; // Zum ersten Bild zurückspringen
+        }
+
+        // Alle Bilder ausblenden und das neue aktivieren
+        images.forEach(image => {
+            image.classList.remove('active');
+        });
+        images[newIndex].classList.add('active');
+
+        // Update die Farbauswahl basierend auf dem aktiven Bild
+        updateColorSelection(container, images[newIndex].src);
+    }
+
+    function updateColorSelection(container, imageUrl) {
+        // Finde das zugehörige Farbauswahlfeld
+        const select = container.closest('.shoe-card').querySelector('select[id^="variant-select-"]');
+
+        // Finde die Option, die mit dem aktuellen Bild verknüpft ist
+        for (let option of select.options) {
+            if (imageUrl.includes(option.getAttribute('data-image'))) {
+                select.value = option.value; // Setze den Wert der Auswahl auf die gefundene Option
+                break;
+            }
+        }
+    }
+
+    function closeLoginPopup() {
+        const popup = document.getElementById("loginPopup");
+        popup.style.display = "none";
+    }
+
+    function closeNotLoggedInPopup() {
+        const popup = document.getElementById("notLoggedInPopup");
+        popup.style.display = "none";
+    }
+
+    function showLoginForm() {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("message").textContent = "";
+    }
+
+    function showRegisterForm() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("message").textContent = "";
+    }
+
+    function checkLoginForOutfits() {
+        {{^isLoggedIn}}
+            const popup = document.getElementById("notLoggedInPopup");
+            popup.style.display = "flex";
+        {{/isLoggedIn}}
+        {{#isLoggedIn}}
+            window.location.href = "/outfits"; // Benutzer wird zu Outfits weitergeleitet, wenn er angemeldet ist
+        {{/isLoggedIn}}
+    }
+
+    function loginUser() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        if (!username || !password) {
+            document.getElementById("loginMessage").textContent = "Bitte Benutzername und Passwort eingeben.";
+            document.getElementById("loginMessage").style.color = "red";
+            return;
+        }
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": csrfToken
+            },
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/wishlist";
+                    } else if (response.status === 401) {
+                        document.getElementById("loginMessage").textContent = "Benutzername oder Passwort ist falsch.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    } else {
+                        document.getElementById("loginMessage").textContent = "Fehler beim Login. Bitte erneut versuchen.";
+                        document.getElementById("loginMessage").style.color = "red";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loginMessage").textContent = "Fehler. Bitte erneut versuchen.";
+                    document.getElementById("loginMessage").style.color = "red";
+                });
+    }
+
+    function registerUser() {
+        const token = document.querySelector('input[name="_csrf"]').value;
+        const formData = new FormData(document.getElementById('registerFormElement'));
+
+        fetch('/register', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': token
+            }
+        })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Fehler bei der Registrierung: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('registerMessage').textContent = "Registrierung erfolgreich!";
+                })
+                .catch(error => {
+                    document.getElementById('registerMessage').textContent = error.message;
+                });
+    }
+
+    function logoutUser() {
+        fetch("/logout", {
+            method: "POST",
+            headers: {
+                "X-CSRF-Token": document.querySelector('input[name="_csrf"]').value // CSRF-Token hinzufügen
+            }
+        })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/"; // Benutzer zur Startseite umleiten
+                    } else {
+                        alert('Fehler beim Ausloggen. Bitte versuche es erneut.');
+                    }
+                })
+                .catch(() => {
+                    alert('Netzwerkfehler. Bitte versuche es erneut.');
+                });
+    }
+
+    function addToWishlist(productId, productName, productPrice, selectedSize) {
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        // Finde die Farbauswahl für das spezifische Produkt
+        const selectedColorOption = document.querySelector(`#variant-select-${productId} option:checked`);
+        const selectedColor = selectedColorOption ? selectedColorOption.text : "Unbekannte Farbe";
+
+        const details = `Größe: ${selectedSize}, Farbe: ${selectedColor}, Preis: ${productPrice} €`;
+
+        fetch("/wishlist/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken
+            },
+            body: JSON.stringify({ itemName: productName, itemDetails: details }),
+        })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`"${productName}" in Größe ${selectedSize} und Farbe "${selectedColor}" wurde zur Wunschliste hinzugefügt!`);
+                    } else {
+                        alert("Fehler beim Hinzufügen zur Wunschliste.");
+                    }
+                })
+                .catch(() => {
+                    alert("Fehler. Bitte anmelden oder erneut versuchen.");
+                });
+    }
+
+    function changeVariant(shoeType) {
+        const select = document.getElementById(`variant-select-${shoeType}`);
+        const selectedOption = select.options[select.selectedIndex];
+        const newImage = selectedOption.getAttribute('data-image');
+
+        // Finde die Schuhkarte, die das aktuell gewählte Schuhmodell enthält
+        const shoeCard = document.querySelector(`.shoe-card:has(select[id^="variant-select-${shoeType}"]) .shoe-image-container`);
+
+        if (shoeCard) {
+            // Alle Bilder in der spezifischen Schuhkarte ausblenden
+            const images = shoeCard.querySelectorAll('.shoe-image');
+
+            images.forEach(image => {
+                image.classList.remove('active');
+            });
+
+            // Das neue Bild aktivieren
+            const newImageElement = [...images].find(image => image.src.includes(newImage));
+            if (newImageElement) {
+                newImageElement.classList.add('active');
+            }
+        }
+    }
+</script>
+</body>
+</html>
